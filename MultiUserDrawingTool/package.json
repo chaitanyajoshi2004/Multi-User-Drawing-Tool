@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "ws": "^8.18.3"
+  },
+  "name": "multiuserdrawingtool",
+  "version": "1.0.0",
+  "description": "- Real-time collaborative drawing\r - Multi-client chalkboard interface\r - Network synchronization via TCP\r - Built with C++ and MFC libraries",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
