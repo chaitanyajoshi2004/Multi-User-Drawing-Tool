@@ -1,0 +1,36 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Multi-User Drawing</title>
+<style>
+canvas { border:1px solid black; }
+</style>
+</head>
+<body>
+<h2>Multi-User Drawing App</h2>
+<canvas id="canvas" width="800" height="600"></canvas>
+<script src="drawing.js"></script>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Multi-User Drawing with CRUD + Undo</title>
+<style>
+canvas { border:1px solid black; display:block; margin:10px 0; }
+button { margin-right:10px; }
+</style>
+</head>
+<body>
+<h2>Multi-User Drawing App with CRUD + Undo</h2>
+<button id="clearBtn">Clear All</button>
+<button id="undoBtn">Undo Last Stroke</button>
+<p>Shortcuts: Press <b>C</b> = Clear, <b>U</b> = Undo</p>
+<canvas id="canvas" width="800" height="600"></canvas>
+<script src="drawing.js"></script>
+</body>
+</html>
