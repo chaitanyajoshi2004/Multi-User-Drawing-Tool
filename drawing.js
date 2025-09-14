@@ -60,8 +60,8 @@
 //     ws.send(JSON.stringify({ type: 'draw', x0, y0, x1, y1, color }));
 // }
 // 🔗 Backend URLs (change to your Render URL)
-const ws = new WebSocket("wss://multi-user-drawing-tool-1.onrender.com");  // WebSocket server
-const API_BASE = "https://multi-user-drawing-tool-1.onrender.com/api/drawings"; // REST API
+const ws = new WebSocket("wss://multi-user-drawing-tool-2.onrender.com");  // WebSocket server
+const API_BASE = "https://multi-user-drawing-tool-2.onrender.com/api/drawings"; // REST API
 
 // Example: Load saved drawings on page load
 fetch(API_BASE)
@@ -190,3 +190,4 @@ document.addEventListener('keydown', e => {
     if (e.key.toLowerCase() === 'c') ws.send(JSON.stringify({ type: 'clear' }));
     if (e.key.toLowerCase() === 'u') ws.send(JSON.stringify({ type: 'undo' }));
 });
+
