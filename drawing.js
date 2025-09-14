@@ -59,13 +59,21 @@
 //     // Send JSON string to server
 //     ws.send(JSON.stringify({ type: 'draw', x0, y0, x1, y1, color }));
 // }
-const canvas = document.getElementById('canvas');
+// 🔗 Backend URLs (change to your Render URL)
+const ws = new WebSocket("wss://multiuser-drawing-server.onrender.com");  // WebSocket server
+const API_BASE = "https://multiuser-drawing-server.onrender.com/api/drawings"; // REST API
+
+// Example: Load saved drawings on page load
+fetch(API_BASE)
+  .then(res => res.json())
+  .then(data => console.log("Loaded drawings:", data));
+
+const canvas = document.getElementById('canvas'); 
 const ctx = canvas.getContext('2d');
 let drawing = false;
 let lastX = 0, lastY = 0;
 let strokeId = 0;
 
-const ws = new WebSocket('ws://localhost:9999');
 ws.onopen = () => console.log('Connected to server');
 
 // Handle server messages
@@ -86,7 +94,12 @@ ws.onmessage = async (msg) => {
 
         case 'delete':
             // Redraw after deletion
-            ws.send(JSON.stringify({ type: 'read' }));
+            fetch(API_BASE) // re-fetch drawings from backend
+                .then(res => res.json())
+                .then(drawings => {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    drawings.forEach(s => drawLine(s.x0, s.y0, s.x1, s.y1, s.color, false));
+                });
             break;
 
         case 'clear':
