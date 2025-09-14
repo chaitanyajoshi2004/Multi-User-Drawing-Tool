@@ -94,7 +94,7 @@ ws.onmessage = async (msg) => {
 
         case 'delete':
             // Redraw after deletion
-            fetch(API_BASE) // re-fetch drawings from backend
+            fetch(API_BASE)
                 .then(res => res.json())
                 .then(drawings => {
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -108,7 +108,7 @@ ws.onmessage = async (msg) => {
     }
 };
 
-// Mouse events
+// 🖱 Mouse events
 canvas.addEventListener('mousedown', e => {
     drawing = true;
     lastX = e.offsetX;
@@ -120,20 +120,48 @@ canvas.addEventListener('mouseout', () => drawing = false);
 
 canvas.addEventListener('mousemove', e => {
     if (!drawing) return;
+    drawAndSend(e.offsetX, e.offsetY);
+});
+
+// 📱 Touch events (for mobile support)
+canvas.addEventListener('touchstart', e => {
+    e.preventDefault(); // stop scrolling
+    drawing = true;
+    const touch = e.touches[0];
+    const rect = canvas.getBoundingClientRect();
+    lastX = touch.clientX - rect.left;
+    lastY = touch.clientY - rect.top;
+});
+
+canvas.addEventListener('touchend', () => drawing = false);
+canvas.addEventListener('touchcancel', () => drawing = false);
+
+canvas.addEventListener('touchmove', e => {
+    if (!drawing) return;
+    e.preventDefault(); // stop scrolling
+    const touch = e.touches[0];
+    const rect = canvas.getBoundingClientRect();
+    const x = touch.clientX - rect.left;
+    const y = touch.clientY - rect.top;
+    drawAndSend(x, y);
+});
+
+// 🔑 Shared drawing logic
+function drawAndSend(x, y) {
     const stroke = {
         id: ++strokeId,
         x0: lastX,
         y0: lastY,
-        x1: e.offsetX,
-        y1: e.offsetY,
+        x1: x,
+        y1: y,
         color: 'black'
     };
     drawLine(stroke.x0, stroke.y0, stroke.x1, stroke.y1, stroke.color, true, stroke);
-    lastX = e.offsetX;
-    lastY = e.offsetY;
-});
+    lastX = x;
+    lastY = y;
+}
 
-// Draw helper
+// ✏️ Draw helper
 function drawLine(x0, y0, x1, y1, color, emit, stroke) {
     ctx.strokeStyle = color;
     ctx.lineWidth = 2;
@@ -148,7 +176,7 @@ function drawLine(x0, y0, x1, y1, color, emit, stroke) {
     }
 }
 
-// Buttons
+// 🧹 Buttons
 document.getElementById('clearBtn').onclick = () => {
     ws.send(JSON.stringify({ type: 'clear' }));
 };
@@ -157,9 +185,8 @@ document.getElementById('undoBtn').onclick = () => {
     ws.send(JSON.stringify({ type: 'undo' }));
 };
 
-// Keyboard shortcuts
+// ⌨️ Keyboard shortcuts
 document.addEventListener('keydown', e => {
     if (e.key.toLowerCase() === 'c') ws.send(JSON.stringify({ type: 'clear' }));
     if (e.key.toLowerCase() === 'u') ws.send(JSON.stringify({ type: 'undo' }));
 });
-
