@@ -1,0 +1,22 @@
+{
+  "name": "multiuserdrawingtool",
+  "version": "1.0.0",
+  "description": "Real-time collaborative drawing app with WebSocket and CRUD API",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "uuid": "^9.0.1",
+    "ws": "^8.18.0"
+  },
+  "keywords": [
+    "drawing",
+    "websocket",
+    "collaboration",
+    "nodejs"
+  ],
+  "author": "Your Name",
+  "license": "ISC"
+}
